@@ -14,7 +14,7 @@ export async function getStaticProps() {
 export default function Home( { allData } ) {
   return (
     <Layout home>
-      <h1>Returned from WP</h1>
+      <h1>Returned from WPDB</h1>
       <div className="list-group">
         {allData.map(
             ({id,name}) => (
