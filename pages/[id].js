@@ -7,15 +7,17 @@ export async function getStaticProps( { params } ) {
   return {
     props: {
       itemData
-    }
+    },
+
+    //Next.js' ISR functionality
+    revalidate: 60
   };
 }
-
-
 
 // define a getStaticPaths() function to tell next.js all valid URLs
 export async function getStaticPaths() {
   const paths = await getAllIds();
+  // console.log("Paths:", paths);
   return {
     paths,
     fallback: false
@@ -23,32 +25,32 @@ export async function getStaticPaths() {
 }
 
 
-
 export default function Entry({ itemData }) {
-  const formatScfFields = (fields) => {
-    // split up the three fields into key-value pairs
-    const pairs = fields.split(','); 
-    const values = pairs
-    // get rid of contact_gif 
-    .filter(pair => !pair.startsWith('contact_gif:'))
-    // get the first and last name values
-    .map(pair => pair.split(':')[1].trim());
-    // join together wiht for a complete name with a space
-  return values.join(' '); 
-};
+  console.log("Item Data: ", itemData);
 
-  const formattedFields = formatScfFields(itemData.scf_fields);
+  const obj = itemData.scf_fields;
+  console.log("DATA IN OBJ: ", obj);
+  
+  // Use replace to format the string into JSON format
+  let formatString = '{"' + obj.replace(/,/g, '","').replace(/:/g, '":"') + '"}';
+  
+  // Parse the formatted string into a JSON object
+  let parsedObj = JSON.parse(formatString);
+  console.log("OBJ PARSED: ", parsedObj);
 
+
+  const mediaPath = itemData.gif_path || itemData.img_path;
   return (
     <Layout>
-      <article className="card col-6">
-        <div className="card-body">
-          <h5 className="card-title" style={{fontWeight: 'bold', fontSize: '1.5rem'}}>{formattedFields}</h5>
+      <article className="card col-12">
+        <div className="card-body col-12">
+          <h5 className="card-title" style={{fontWeight: 'bold', fontSize: '1.5rem'}}>{itemData.post_title}</h5>
+          <h4>{parsedObj.character_description}</h4>
           <img
-              src={`https://dev-nickfitzpatrick-5513-w11.pantheonsite.io/wp-content/uploads/${itemData.gif_path}`}
-              alt="Dandadan GIF"
-              className="img-fluid mt-3"
-           />
+            src={`https://dev-nickfitzpatrick-5513-w11.pantheonsite.io/wp-content/uploads/${mediaPath}`}
+            alt="Media"
+            className="img-fluid mt-3"
+          />
         </div>
       </article>
     </Layout>
