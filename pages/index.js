@@ -2,24 +2,24 @@ import Layout from "@/components/layout";
 import Link from "next/link";
 import { getSortedList } from "@/lib/data";
 import { getSortedYokaiList } from "@/lib/data-yokai";
-import { getSortedAlianList } from "@/lib/data-alians";
+import { getSortedAlienList } from "@/lib/data-aliens";
 
 
 // define a getStaticProps() function 
 export async function getStaticProps() {
   const allData = await getSortedList();
   const yokaiData = await getSortedYokaiList();
-  const alianData = await getSortedAlianList();
+  const alienData = await getSortedAlienList();
   
   return {
-    props: { allData, yokaiData, alianData  }
+    props: { allData, yokaiData, alienData  }
   };
 }
 
 
 
 // exports our homepage
-export default function Home( { allData, yokaiData, alianData } ) {
+export default function Home( { allData, yokaiData, alienData } ) {
   return (
     <Layout home>
       <h1 style={{ marginLeft: '10px' }}>Dandadan! - Returned from WPDB</h1>
@@ -50,8 +50,8 @@ export default function Home( { allData, yokaiData, alianData } ) {
       </div>
 
       <div className="list-group mt-4">
-        <h2 style={{ marginLeft: '10px' }}>Alians</h2>
-        {alianData.map(({ id, name }) => (
+        <h2 style={{ marginLeft: '10px' }}>Aliens</h2>
+        {alienData.map(({ id, name }) => (
           <Link key={id} href={`/alians/${id}`} className="list-group-item list-group-item-action" style={{ backgroundColor: '#4fd8d5'}}>
             {name}
           </Link>

@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/yokai/[id]": "pages/yokai/[id].js",
-  "/[id]": "pages/[id].js",
+  "/": "pages/index.js",
   "/alians/[id]": "pages/alians/[id].js",
-  "/": "pages/index.js"
+  "/[id]": "pages/[id].js"
 }
