@@ -16,6 +16,8 @@ export async function getStaticProps() {
   };
 }
 
+
+
 // exports our homepage
 export default function Home( { allData, yokaiData, alianData } ) {
   return (
